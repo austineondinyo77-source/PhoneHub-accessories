@@ -88,18 +88,24 @@
     }
 
     #cart-box {
-      display: right 100%;
+      display: none;
       background: white;
       border: 1px solid #ccc;
       padding: 15px;
       position: fixed;
-      right: 100%;
-      top: 35px;
+      right: 16px;
+      top: 70px;
       width: 300px;
+      max-width: calc(100% - 32px);
       z-index: 999;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       color: black;
+      font-size: 14px;
+    }
+
+    #cart-box.open {
+      display: block;
     }
 
     #cart-box h3 {
@@ -400,7 +406,7 @@
       color: #999;
       display: none;
     }
-    .car-total{
+    .cart-total{
         margin-top: 10px;
     }
     .instagram{
@@ -417,7 +423,7 @@
   <div class="header-right">
     <span id="user-name"></span>
     <div class="cart-area">
-      🛒 <span id="cart-count" onclick="toggleCart()">0</span>
+      <span onclick="toggleCart()">🛒</span> <span id="cart-count" onclick="toggleCart()">0</span>
       <div id="cart-box">
         <h3>🛒 Your Cart</h3>
         <ul id="cart-items"></ul>
@@ -537,7 +543,7 @@
 
     <div class="about-section">
       <h4>🌟 Why Choose Us</h4>
-      <p>✔ Genuine products &nbsp; ✔ Affordable prices &nbsp; ✔ Fast delivery &nbsp; ✔ Friendly support &nbsp; ✔ Easy returns</p>
+      <p>✔️ Genuine products &nbsp; ✔️ Affordable prices &nbsp; ✔️ Fast delivery &nbsp; ✔️ Friendly support &nbsp; ✔️ Easy returns</p>
     </div>
 
     <div class="about-section">
@@ -656,8 +662,7 @@
   }
 
   function toggleCart() {
-    const box = document.getElementById('cart-box');
-    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    document.getElementById('cart-box').classList.toggle('open');
   }
 
   // ── RENDER ──
@@ -668,12 +673,12 @@
     none.style.display = 'none';
     grid.innerHTML = list.map(p => {
       const stockLabel = p.stock === 0 ? 'Out of Stock'
-        : p.stock < 10 ? `Only ${p.stock} left!` : `In Stock: ${p.stock}`;
+        : p.stock < 10 ? Only ${p.stock} left! : In Stock: ${p.stock};
       const stockClass = p.stock === 0 ? 'out' : p.stock < 10 ? 'low' : '';
       return `
         <div class="product-card">
           <img src="${p.img}" alt="${p.name}"
-            onerror="this.src='https://via.placeholder.com/300x160?text=No+Image'" />
+            onerror="this.onerror=null;this.src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='" />
           <div class="card-body">
             <h3>${p.name}</h3>
             <div class="price">$${p.price}</div>
@@ -731,15 +736,4 @@
     document.getElementById('navMenu').classList.toggle('open');
   }
 
-  // ── LOGOUT ──
-  function logout() {
-    sessionStorage.clear();
-    window.location.href = 'index.html';
-  }
-
-  // ── INIT ──
-  renderProducts(products);
-
-</script>
-</body>
-</html>
+  //
